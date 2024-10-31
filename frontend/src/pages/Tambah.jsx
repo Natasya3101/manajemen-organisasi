@@ -1,41 +1,39 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
+import Cookies from "js-cookie";
 const Tambah = () => {
+
   const [name, setName] = useState('');
   const [image, setImage] = useState(null);
   const [jabatan, setJabatan] = useState('');
   const [atasan, setAtasan] = useState('');
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('name', name);
-    formData.append('jabatan', jabatan);
-    formData.append('atasan', atasan);
-    formData.append('anggotaImage', image);
-
-    try {
-      const response = await fetch('/api/anggota/add-anggota', {
-        method: 'POST',
+    formData.append("anggotaImage", image);
+    const response = await fetch(
+     `/api/anggota/add-anggota?name=${name}&jabatan=${jabatan}&atasan=${atasan}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+        },
         body: formData,
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        alert(errorData.message || 'Data gagal ditambahkan');
-        return;
       }
-
-      const data = await response.json();
-      alert(data.message); // Alert success message
-      navigate('/anggota'); // Redirect to anggota page after successful addition
-    } catch (error) {
-      console.error('Error adding anggota:', error);
-      alert('Terjadi kesalahan saat menambahkan data');
+    );
+    const data = await response.json();
+    console.log(data);
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert(errorData.message || "Data gagal ditambahkan");
+      return;
     }
+    alert("Success Add New Anggota"); // Alert success message
+    navigate("/anggota"); // Redirect to anggota page after successful addition
   };
 
   return (

@@ -12,6 +12,6 @@ import com.tes.backend.dto.AnggotaResponse;
 
 public interface AnggotaService {
     List<AnggotaResponse> getAll();
-    void add(AnggotaRequest request,MultipartFile anggotaImage) throws IOException, SQLException;
+    AnggotaRequest add(AnggotaRequest request,MultipartFile anggotaImage) throws IOException, SQLException;
 
 } 

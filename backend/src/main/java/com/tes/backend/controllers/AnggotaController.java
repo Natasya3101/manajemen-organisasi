@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping("/api/anggota")
 @RestController
 @Tag(name = "anggota")
-@CrossOrigin(origins = "http://localhost:5173/")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AnggotaController {
     
     @Autowired 
@@ -40,10 +40,10 @@ public class AnggotaController {
     @PostMapping(value = "/add-anggota", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @SecurityRequirement(name = "Bearer Authentication")
     public ResponseEntity<Object> addAnggota(AnggotaRequest request,
-    @RequestParam("anggota Image") MultipartFile file) {
+    @RequestParam("anggotaImage") MultipartFile file) {
         try {
-            anggotaService.add(request, file);
-            return ResponseEntity.ok("Success Add New Anggota");
+            ;
+            return ResponseEntity.ok().body(anggotaService.add(request, file));
         } catch (ResponseStatusException e) {
             return ResponseEntity.status(e.getStatusCode()).body("Error: " + e.getReason());
         } catch (Exception e) {

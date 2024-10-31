@@ -10,13 +10,14 @@ export const login = async (email, password) => {
             password,
         });
 
-        console.log(response.data);
-        const token = response.data.data.token;
-        console.log(token);
+        // console.log(response.data);
+        const token = response.data.token;
+        // console.log(token);
 
         if (token) {
-            Cookies.set('token', token); // Set token in cookies
-            return 'Login berhasil!'; // Return success message
+            localStorage.setItem("token",token);
+            Cookies.set('token', token); 
+            return 'Login berhasil!'; 
         } else {
             throw new Error('Token tidak ditemukan dalam respons');
         }

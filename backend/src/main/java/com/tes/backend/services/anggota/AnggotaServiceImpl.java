@@ -54,7 +54,7 @@ public class AnggotaServiceImpl implements AnggotaService{
 
     @Override
     @Transactional
-    public void add(AnggotaRequest request, MultipartFile anggotaImage) {
+    public AnggotaRequest add(AnggotaRequest request, MultipartFile anggotaImage) {
         try {
             if (!anggotaImage.getContentType().startsWith("image")) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unsupported File Type");
@@ -70,9 +70,7 @@ public class AnggotaServiceImpl implements AnggotaService{
             newAnggota.setAtasan(request.getAtasan());
             newAnggota.setImage(new SerialBlob(anggotaImage.getBytes()));
             anggotaRepository.save(newAnggota);
-    
-            throw new ResponseStatusException(HttpStatus.CREATED, "Data berhasil ditambahkan");
-    
+            return request;
         } catch (IOException | SQLException e) {
             
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Terjadi kesalahan saat menambahkan data", e);
